@@ -4,6 +4,10 @@ locals {
       type      = "standard"
       image_tag = "002"
     }
+    tenant2 = {
+      type      = "standard"
+      image_tag = "002"
+    }
   }
 }
 
