@@ -28,6 +28,14 @@ resource "azurerm_container_app" "crgar-aca-demo-app" {
         name  = "TENANT_NAME"
         value = var.tenant_name
       }
+      env {
+        name  = "ENVIRONMENT_NAME"
+        value = var.environment_name
+      }
+      env {
+        name  = "TIER"
+        value = var.tier
+      }
     }
     revision_suffix = var.image_tag
     min_replicas    = 1
@@ -38,7 +46,7 @@ resource "azurerm_container_app" "crgar-aca-demo-app" {
     allow_insecure_connections = true
     target_port                = 8080
     traffic_weight {
-      percentage = 100
+      percentage      = 100
       latest_revision = true
     }
     external_enabled = true

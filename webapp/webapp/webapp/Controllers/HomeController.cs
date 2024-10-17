@@ -7,14 +7,19 @@ namespace webapp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
+            _configuration = configuration;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
+            ViewBag.TenantName = _configuration["TENANT_NAME"];
+            ViewBag.EnvironmentName = _configuration["ENVIRONMENT_NAME"];
+            ViewBag.Tier = _configuration["TIER"];
             return View();
         }
 

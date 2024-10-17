@@ -1,7 +1,3 @@
-################################
-#         Generics
-################################
-
 variable "prefix" {
   description = "prefix"
   type        = string
@@ -46,3 +42,6 @@ variable "acr_host_name" {
   type = string
 }
 
+variable "tier" {
+  type = string
+}
