@@ -23,6 +23,15 @@ resource "azurerm_resource_group" "crgar-aca-dev-tenant-rg" {
   }
 }
 
+module "storage" {
+  source              = "./modules/storage"
+  prefix              = local.prefix
+  location            = local.location
+  resource_group_name = azurerm_resource_group.crgar-aca-dev-tenant-rg.name
+  tenant_name         = var.tenant_name
+  environment_name    = var.environment_name
+}
+
 module "aca" {
   source                     = "./modules/aca"
   prefix                     = local.prefix
@@ -36,4 +45,7 @@ module "aca" {
   acr_host_name              = data.terraform_remote_state.platform.outputs.acr_login_server
   acr_identity_id            = data.terraform_remote_state.platform.outputs.acr_identity_id
   tier                       = var.tier
+  volume_storage_key         = module.storage.storage_key
+  volume_storage_name        = module.storage.storage_name
+  volume_share_name          = module.storage.share_name
 }
