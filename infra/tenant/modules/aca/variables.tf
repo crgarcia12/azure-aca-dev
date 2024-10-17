@@ -25,3 +25,24 @@ variable "log_analytics_workspace_id" {
 variable "image_name" {
   type = string
 }
+
+variable "image_tag" {
+  type = string
+}
+
+variable "tenant_name" {
+  type = string
+}
+
+variable "environment_name" {
+  type = string
+}
+
+variable "acr_identity_id" {
+  type = string
+}
+
+variable "acr_host_name" {
+  type = string
+}
+
