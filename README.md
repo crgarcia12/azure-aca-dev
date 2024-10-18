@@ -1,5 +1,8 @@
 # azure-aca-dev
 
+This repo show some flows on how you can do multi tenancy on Azure
+
+![DAy in the life of a dev Multi-Tenancy](readme-media/day-in-life-dev-app-changes.png)
 
 
 
