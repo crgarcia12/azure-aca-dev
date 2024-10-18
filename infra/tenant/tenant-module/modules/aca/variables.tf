@@ -45,3 +45,13 @@ variable "acr_host_name" {
 variable "tier" {
   type = string
 }
+
+variable "volume_storage_key" {
+  type = string
+}
+variable "volume_storage_name" {
+  type = string
+}
+variable "volume_share_name" {
+  type = string
+}

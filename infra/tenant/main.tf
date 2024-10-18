@@ -1,11 +1,11 @@
 locals {
   tenants = {
     tenant1 = {
-      type = "standard"
+      type      = "standard"
       image_tag = "002"
     }
     tenant2 = {
-      type = "premium"
+      type      = "standard"
       image_tag = "002"
     }
   }

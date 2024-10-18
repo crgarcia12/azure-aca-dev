@@ -1,4 +1,8 @@
-resource "azurerm_container_app_environment" "crgar-aca-demo-env" {
+locals {
+  volume_mount_name = "volumemount"
+}
+
+resource "azurerm_container_app_environment" "crgar-aca-demo-tenant-env" {
   name                       = "${var.prefix}-aca-env"
   location                   = var.location
   resource_group_name        = var.resource_group_name
@@ -12,7 +16,7 @@ resource "azurerm_container_app_environment" "crgar-aca-demo-env" {
 
 resource "azurerm_container_app" "crgar-aca-demo-app" {
   name                         = "${var.prefix}-aca-app"
-  container_app_environment_id = azurerm_container_app_environment.crgar-aca-demo-env.id
+  container_app_environment_id = azurerm_container_app_environment.crgar-aca-demo-tenant-env.id
   resource_group_name          = var.resource_group_name
 
   revision_mode = "Multiple"
@@ -23,6 +27,11 @@ resource "azurerm_container_app" "crgar-aca-demo-app" {
       image  = "${var.image_name}:${var.image_tag}"
       cpu    = 0.25
       memory = "0.5Gi"
+
+      # volume_mounts {
+      #   name = local.volume_mount_name
+      #   path = "/mnt"
+      # }
 
       env {
         name  = "TENANT_NAME"
@@ -36,10 +45,22 @@ resource "azurerm_container_app" "crgar-aca-demo-app" {
         name  = "TIER"
         value = var.tier
       }
+
     }
     revision_suffix = var.image_tag
     min_replicas    = 1
     max_replicas    = 3
+
+    # volume {
+    #   name = local.volume_mount_name
+
+    #   storage_account {
+    #     account_name = var.volume_storage_name
+    #     share_name   = var.volume_share_name
+    #     account_key  = var.volume_storage_key
+    #   }
+    # }
+
   }
 
   ingress {
