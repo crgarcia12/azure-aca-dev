@@ -22,6 +22,17 @@ resource "azurerm_storage_share" "crgar-aca-demo-tenant-storage-share" {
   }
 }
 
+resource "azurerm_storage_share2" "crgar-aca-demo-tenant-storage-share" {
+  name                 = "mounted-share2"
+  storage_account_name = azurerm_storage_account.crgar-aca-demo-tenant-storage.name
+  quota                = 1
+
+  metadata = {
+    environment_name = var.environment_name
+    tenant_name      = var.tenant_name
+  }
+}
+
 output "storage_key" {
   value = azurerm_storage_account.crgar-aca-demo-tenant-storage.primary_access_key
 }
