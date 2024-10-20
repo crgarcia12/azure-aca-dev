@@ -1,5 +1,5 @@
 resource "azurerm_storage_account" "crgar-aca-demo-tenant-storage" {
-  name                     = replace("${var.prefix}st", "-","") 
+  name                     = replace("${var.prefix}st", "-", "")
   resource_group_name      = var.resource_group_name
   location                 = var.location
   account_tier             = "Standard"
