@@ -1,5 +1,5 @@
 module "tenant" {
-  for_each = local.rings
+  for_each = local.tenants
 
   source           = "./tenant-module"
   project_name     = "crgar-aca-dev"
