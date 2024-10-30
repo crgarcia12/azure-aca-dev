@@ -5,7 +5,7 @@ locals {
       app_version = "004"
     }
     tenant4 = {
-      tier        = "standard"
+      tier        = "premium"
       app_version = "004"
     }
   }
