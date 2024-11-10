@@ -1,0 +1,14 @@
+param prefix string
+param location string
+param resource_group_name string
+param log_analytics_workspace_id string
+param image_name string
+param image_tag string
+param tenant_name string
+param environment_name string
+param acr_identity_id string
+param acr_host_name string
+param tier string
+param volume_storage_key string
+param volume_storage_name string
+param volume_share_name string
