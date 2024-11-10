@@ -1,4 +1,4 @@
-name: 'Terraform Infrastructure Plan'
+name: 'Bicep Infrastructure Plan'
 
 on:
   workflow_dispatch:  
@@ -9,8 +9,8 @@ on:
     # - infra/tenant
 
 jobs:
-  terraform:
-    name: 'Terraform'
+  bicep:
+    name: 'Bicep'
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -29,45 +29,26 @@ jobs:
       pull-requests: write
     steps:
     - uses: actions/checkout@v4
-    - uses: hashicorp/setup-terraform@v3
+    - name: Set up Bicep
+      run: az bicep install
 
-    - name: Terraform fmt
-      id: fmt
-      run: terraform fmt -check
-      continue-on-error: true
+    - name: Bicep Build
+      id: build
+      run: az bicep build --file main.bicep
 
-    - name: Terraform Init
-      id: init
-      run: terraform init
-
-    - name: Terraform Validate
-      id: validate
-      run: terraform validate -no-color
-
-    - name: Terraform Plan
+    - name: Bicep Plan
       id: plan
-      run: terraform plan -no-color
-      continue-on-error: true
+      run: az deployment group what-if --resource-group crgar-aca-dev-tenant-rg --template-file main.json --parameters @parameters.json
 
     - uses: actions/github-script@v7
       if: github.event_name == 'pull_request'
       env:
-        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        PLAN: "bicep\n${{ steps.plan.outputs.stdout }}"
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-          #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-          #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-          <details><summary>Validation Output</summary>
-
-          \`\`\`\n
-          ${{ steps.validate.outputs.stdout }}
-          \`\`\`
-
-          </details>
-
-          #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+          const output = `#### Bicep Build 🖌\`${{ steps.build.outcome }}\`
+          #### Bicep Plan 📖\`${{ steps.plan.outcome }}\`
 
           <details><summary>Show Plan</summary>
 
