@@ -1,12 +1,10 @@
-name: 'Terraform Infrastructure Apply'
+name: 'Terraform Infrastructure Apply Dev'
 
 on:
   workflow_dispatch:  
-    branches:
-    - main
   push:
     branches:
-    - main
+    - dev
 
 jobs:
   terraform:
@@ -23,7 +21,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: infra/tenant
+        working-directory: infra/environments/dev
 
     permissions:
       pull-requests: write
